@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Full Bleed Image Examples</title>
+    <style>
+        /* Reset default margins and padding */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        /* Example 1: Basic full bleed image */
+        .hero-section {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .hero-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .info {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            cursor: pointer;
+            color: black;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Example 1: Hero section with full bleed image -->
+    <section class="hero-section">
+        <img src="images/1500LI.png" alt="Hero image" class="hero-image" id="heroImage">
+    </section>
+    <a href="/about.html" class="info">INFO</a>
+
+    <script>
+        const images = [
+            'images/1500LI.png',
+            'images/1500LI1.png',
+            'images/1500NP.png',
+            'images/1500V.png',
+        ];
+        let currentImageIndex = 0;
+        const heroImage = document.getElementById('heroImage');
+        const preloadedImages = [];
+
+        // Preload all images
+        function preloadImages() {
+            images.forEach((src) => {
+                const img = new Image();
+                img.src = src;
+                preloadedImages.push(img);
+            });
+        }
+
+        function cycleImage() {
+            heroImage.classList.add('loading');
+            currentImageIndex = (currentImageIndex + 1) % images.length;
+            heroImage.src = images[currentImageIndex];
+
+            // Remove loading class once image is loaded
+            heroImage.onload = () => {
+                heroImage.classList.remove('loading');
+            };
+        }
+
+        // Preload images when page loads
+        window.addEventListener('load', preloadImages);
+
+        // Start cycling after images are preloaded
+        setTimeout(() => {
+            setInterval(cycleImage, 5000);
+        }, 1000);
+    </script>
+</body>
+
+</html>
